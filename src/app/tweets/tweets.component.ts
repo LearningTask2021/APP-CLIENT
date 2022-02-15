@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Tweets } from '../models/tweets';
+import { User } from '../models/user';
+import { JwtAuthService } from '../services/jwt-auth.service';
 import { TokenStorageService } from '../services/token-storage.service';
 
 @Component({
@@ -11,9 +14,11 @@ export class TweetsComponent implements OnInit {
 
   constructor(
     private tokenStorage:TokenStorageService,
+    private getInfoService:JwtAuthService,
     private router:Router
   ) { }
-  names:String[]=["sarayu","lathika","rm","suga","v","jhope","jimin","kookie","jin"];
+  names:String[]=["sarayu","lathika","rm","suga","v","jhope","jimin","kookie","jin"]
+  users:User[]=[];
   replyList:String[]=["r1","r2","r3","r4"];
   text1:String="Hello!";
   text2:String="Welcome to tweetApp!";
@@ -25,15 +30,39 @@ export class TweetsComponent implements OnInit {
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
+      console.log(this.tokenStorage.getUser())
+      this.userName=this.tokenStorage.getUser().userId
     }
+    this.getAllUsers();
   }
-  public replies(){
-    this.showReplies=!this.showReplies;
+  public replies(t){
+    console.log("Inside showing replies");
+    console.log(t.showReplies);
+    //this.showReplies=!this.showReplies;
+    t.showReplies=!t.showReplies;
+    console.log(t.showReplies);
+    console.log(t.replies);
   }
-  like(){
-    this.likes+=1;
+  like(u,t){
+    //this.likes+=1;
+    this.getInfoService.likeATweet(u.userId,t.tweetId).subscribe(
+      data=>console.log(data)
+    )
+    //this.router.navigate([this.router.url])
+    //window.location.reload();
+    this.ngOnInit()
   }
-  checkNavigate(){
-    this.router.navigate(['/home']);
-  }
-}
+ 
+  
+
+  getAllUsers(){
+    //let users:User[]=[]
+    this.getInfoService.getAllUsers().subscribe(
+      (data)=>{
+        console.log(data)
+       this.users=data
+       console.log(this.users)
+        }
+      )
+      }
+    }

@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="navbar-nav">
             <a class="navbar-brand" routerLink="/home">MeetUP</a>
-            <a  class="nav-link" routerLink="/login">Login</a>
+            <a  [hidden]="isLoggedIn" class="nav-link" routerLink="/login">Login</a>
             <a [hidden]="isLoggedIn" class="nav-link">Register</a>
             <a [hidden]="!isLoggedIn" class="nav-link" routerLink="/tweets">Tweets</a>
             <a [hidden]="!isLoggedIn" class="nav-link">All Users</a>

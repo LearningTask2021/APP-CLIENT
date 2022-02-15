@@ -1,40 +1,61 @@
 <app-menu></app-menu>
-<button (click)="checkNavigate()" value="check">check</button>
+
 <div class="row" [hidden]="!isLoggedIn">
 
-    <div class="column left" style="background-color:rgb(250, 250, 250)">
-      <img class="myProfilePic" src="assets/me.jpg" alt=""/>
-      <p style="color: rgb(136, 153, 166)">{{userName}}</p> 
-      <input type="text" value="Post a new Tweet.." class="postATweet" style="color: rgb(136, 153, 166);margin-left: 10px;"/>
-    &nbsp; <button style=" border: 2px solid rgb(136, 153, 166);font-size: 12px;" class="btn" id="postTweet">Post Tweet</button>
-    </div>
-
-    <div class="column right">
-<ul>
-    <li *ngFor="let i of names;">
-<div class="container">
-    <article class="card">
-      <div class="header">
-        <img src="assets/me.jpg" alt="" />
-        <div class="header-text">
-            <span class="name">~{{i}}~</span>
-          <span class="nickname">@{{i}}</span>
-        </div>
-      </div>
-      <span [innerHTML]="text1 "></span>
-      <span [innerHTML]="text2"></span>
-      <a  class="card-link" (click)="replies()">show replies</a>
-      <span>{{likes}}<i class="bi bi-heart-fill" (click)="like()"></i></span>  
-    </article>
+  <div class="column left" style="background-color:rgb(250, 250, 250)">
+    <img class="myProfilePic" src="assets/me.jpg" alt="" />
+    <p style="color: rgb(136, 153, 166)">{{userName}}</p>
+    <input type="text" value="Post a new Tweet.." class="postATweet"
+      style="color: rgb(136, 153, 166);margin-left: 10px;" />
+    &nbsp; <button style=" border: 2px solid rgb(136, 153, 166);font-size: 12px;" class="btn" id="postTweet">Post
+      Tweet</button>
   </div>
-  <ul *ngIf="showReplies">
-    <li *ngFor="let r of replyList" >
-      <article class="card" style="background-color: white">
-      <p class="card-body">{{r}}</p>
-    </article>
-    </li>
-  </ul>
-</li>
-</ul>
-</div>
+
+
+
+
+
+
+  <div class="column right">
+    <ul>
+      <li *ngFor="let u of users;">
+        <div *ngIf="u.userId!=userName">
+          <div *ngFor="let t of u.tweets" class="container">
+            <article class="card">
+              <div class="header">
+                <img src="assets/me.jpg" alt="" />
+                <div class="header-text">
+                  <span class="name">~{{u.userId}}~</span>
+                  <span class="postedTime"> {{t.createdAt}}</span>
+                </div>
+              </div>
+              <span [innerHTML]=t.tweetText></span>
+              <a class="card-link" (click)="replies(t)">show replies</a>
+              <span>{{t.likes}}<i class="bi bi-heart-fill" (click)="like(u,t)"></i></span>
+            </article>
+            <ul *ngIf="t.showReplies">
+              <div *ngIf="t.replies.length>0;else noReplies">
+                <li *ngFor="let r of t.replies">
+                  <article class="card replies" style="background-color: white">
+                    <span class="postedTime"> {{r.createdAt}}</span>
+                    <p class="card-body">{{r.tweetText}}</p>
+                  </article>
+                </li>
+              </div>
+              <ng-template #noReplies>
+                <ul>
+                  <li>
+                    <article class="card" style="background-color: white">
+                      <p class="card-body">No replies yet!</p>
+                    </article>
+                  </li>
+                </ul>
+              </ng-template>
+            </ul>
+
+          </div>
+        </div>
+     </li>
+    </ul>
+  </div>
 </div>

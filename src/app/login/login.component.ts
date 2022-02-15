@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { JwtAuthService } from '../services/jwt-auth.service';
 import { TokenStorageService } from '../services/token-storage.service';
+import { catchError } from 'rxjs/operators';
+import { of, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,13 +15,14 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
-  constructor(private authService: JwtAuthService, private tokenStorage: TokenStorageService) { }
+  constructor(private authService: JwtAuthService, private tokenStorage: TokenStorageService,private router:Router) { }
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
       this.roles = this.tokenStorage.getUser().userId;
     }
   }
+  
   onSubmit(): void {
     let token:string;
     this.authService.jwtAuthRequest().subscribe(
@@ -29,18 +33,15 @@ export class LoginComponent implements OnInit {
       data='Bearer '+data;
       console.log(data);
       this.tokenStorage.saveToken(data.toString());
-        this.authService.login(this.form).subscribe(
+        this.authService.login(this.form)
+        .subscribe(
           data => {
             //this.tokenStorage.saveToken(token);
             this.tokenStorage.saveUser(data);
             this.isLoginFailed = false;
             this.isLoggedIn = true;
             this.roles = this.tokenStorage.getUser().userId;
-            this.reloadPage();
-          },
-          err => {
-            this.errorMessage = err.error.message;
-            this.isLoginFailed = true;
+            this.router.navigate(['../tweets']);
           }
         );
       }

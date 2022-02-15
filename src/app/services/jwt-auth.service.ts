@@ -2,21 +2,24 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
+import { User } from '../models/user';
 import { TokenStorageService } from './token-storage.service';
+import { pipe,of, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators'
+import { Tweets } from '../models/tweets';
+
+
 
 
 const AUTH_API="http://localhost:8080/api/v1.0/tweets/";
 
 
-class User{
-firstName:String;
-lastName:String;
-userId:String;
-}
+
 @Injectable({
   providedIn: 'root'
 })
 export class JwtAuthService {
+  
 
   authRequest:any={
     "username":"tweetUser",
@@ -39,44 +42,34 @@ export class JwtAuthService {
     headers=headers.append("produces","application/json");
     headers=headers.append("consumes","application/json");
     return this.http.post<String>("http://localhost:8080/authenticate",this.authRequest,{ headers, responseType: 'text' as 'json' })
+    .pipe(
+      // here we can stop the error being thrown for certain error responses
+      catchError(err => {
+        console.log(err)
+        this.handleServerError(err)
+        return ''
+      })
+    )
   }
 
-  getWelcomeMessage(data){
-    data = data.replace("{\"token\":\"", "");
-  let  token = data.replace("\"}", "");
-  console.log(token)
-    let tokenStr='Bearer '+token;
+  
+
+  getAllUsers():Observable<User[]>{
     let headers=new HttpHeaders(
       {
-        "Authorization":tokenStr,
-        'Content-Type':  'application/json',
-        'produces':'application/json',
-        'consumes':'application/json'
-
-      }
-    )
-    console.log("Inside welcome message method");
-    return this.http.get<String>("http://localhost:8080/api/v1.0/tweets/welcome",{ headers, responseType: 'text' as 'json' })
+        'Content-Type':  'application/json'
+      })
+      return this.http.get<User[]>("http://localhost:8080/api/v1.0/tweets/users/all",{headers})
   }
-  getallUsers(data){
-    console.log("Inside get all users");
-    data = data.replace("{\"token\":\"", "");
-  let  token = data.replace("\"}", "");
-  console.log(token)
 
-    let tokenStr='Bearer '+token;
+  likeATweet(userId,tweetId){
     let headers=new HttpHeaders(
       {
-        "Authorization":tokenStr,
-        'Content-Type':  'application/json',
-        'produces':'application/json',
-        'consumes':'application/json'
-
-      }
-    )
-    return this.http.get<User[]>("http://localhost:8080/api/v1.0/tweets/users/all",{ headers, responseType: 'text' as 'json' })
+        'Content-Type':  'application/json'
+      })
+      return this.http.put<Tweets[]>("http://localhost:8080/api/v1.0/tweets/"+userId+"/like/"+tweetId,{headers})
   }
-
+  
   login(credentials): Observable<any> {
     let params=new HttpParams();
     params=params.append("userId",credentials.username);
@@ -94,6 +87,14 @@ export class JwtAuthService {
   logout(){
     this.tokenStorageService.signOut();
    
+  }
+  handleServerError(err){
+    if(err.status==0){
+      console.log("inside 0 error handler")
+      this.router.navigate(["../error"])
+    }
+    if (err.status == 404) return of(null)
+    else throwError(err)
   }
 
 }
