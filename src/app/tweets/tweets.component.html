@@ -4,10 +4,10 @@
 
   <div class="column left" style="background-color:rgb(250, 250, 250)">
     <img class="myProfilePic" src="assets/me.jpg" alt="" />
-    <p style="color: rgb(136, 153, 166)">{{userName}}</p>
-    <input type="text" value="Post a new Tweet.." class="postATweet"
+    <p class="username" style="color: rgb(136, 153, 166)">{{userName}}</p>
+    <input [(ngModel)]="tweetText" type="text" value="Post a new Tweet.." class="postATweet"
       style="color: rgb(136, 153, 166);margin-left: 10px;" />
-    &nbsp; <button style=" border: 2px solid rgb(136, 153, 166);font-size: 12px;" class="btn" id="postTweet">Post
+    &nbsp; <button style=" border: 2px solid rgb(136, 153, 166);font-size: 12px;" (click)="postTweet()" class="btn" id="postTweet">Post
       Tweet</button>
   </div>
 
@@ -29,8 +29,11 @@
                   <span class="postedTime"> {{t.createdAt}}</span>
                 </div>
               </div>
-              <span [innerHTML]=t.tweetText></span>
+              <div class="card-body">
+              <p class="card-text" [innerHTML]=t.tweetText></p>
               <a class="card-link" (click)="replies(t)">show replies</a>
+              <a class="card-link" (click)="reply(t)">add reply</a>
+            </div>
               <span>{{t.likes}}<i class="bi bi-heart-fill" (click)="like(u,t)"></i></span>
             </article>
             <ul *ngIf="t.showReplies">

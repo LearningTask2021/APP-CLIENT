@@ -13,13 +13,15 @@ import { authInterceptorProviders } from './services/auth-interceptor.service';
 import { TweetsComponent } from './tweets/tweets.component';
 import { MenuComponent } from './menu/menu.component';
 import { ErrorComponent } from './error/error.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   {path:'',component:HomeComponent},
   {path:'home',component:HomeComponent},
   { path: 'login', component: LoginComponent },
   {path:'tweets',component:TweetsComponent},
-  {path:'error',component:ErrorComponent},
+  {path:'error/:message/:content',component:ErrorComponent},
+  {path:'profile',component:ProfileComponent},
   {path:"*",component:HomeComponent}
 ];
 
@@ -30,7 +32,8 @@ const routes: Routes = [
     HomeComponent,
     TweetsComponent,
     MenuComponent,
-    ErrorComponent
+    ErrorComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

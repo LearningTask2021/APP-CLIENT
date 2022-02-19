@@ -1,18 +1,53 @@
-
-.container {
-    /*position: absolute;
-    width: 100vw;
-    height: 100vh;*/
-   
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: rgb(136, 153, 166);
-    font-family: sans-serif;
-    font-size: 25px;
-    margin-top: 20px;
-}
-ul{
+img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  .myProfilePic{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+  }
+  p{
+    text-align: center;
+    padding-top: 5px;
+  }
+  .card{
+    margin-top:10px;
+  }
+  
+  .column {
+    float: right;
+    padding: 10px;
+  }
+  .left {
+    width: 25%;
+  }
+  .right {
+    width: 75%;
+  }
+  .changePassword{
+    padding-top: 30px;
+    display:block;
+    text-align:center;
+  }
+  .header-text{
+    display:block;
+    text-align:left;
+  }
+  #change{
+    display:block;
+    text-align:left;
+    margin-left:15px;
+    margin-bottom:15px;
+  }
+  label{
+    margin-right:5px;
+  }
+  input{
+    margin:5px 5px;
+  }
+  ul{
     list-style-type: none;
 }
 li{
@@ -47,13 +82,6 @@ margin-top: 10px;
             margin-left: auto;
             margin-right: auto;
         }
-       .username{
-         text-align: center;
-         padding-top: 5px;
-       } 
-       #postTweet{
-         color: rgb(136, 153, 166);
-       }
         .header-text {
           margin-left: 1rem;
           margin-top: 2rem;
@@ -64,14 +92,8 @@ margin-top: 10px;
           .name {
             color: rgb(136, 153, 166);
           }
-          .column {
-            float: left;
-            padding: 10px;
-          }
-          .left {
-            width: 30%;
+          .change-password{
+            display:block;
+            text-align: center;
           }
           
-          .right {
-            width: 70%;
-          }

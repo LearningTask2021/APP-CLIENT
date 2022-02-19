@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   roles: string[] = [];
   constructor(private authService: JwtAuthService, private tokenStorage: TokenStorageService,private router:Router) { }
   ngOnInit(): void {
-    if (this.tokenStorage.getToken()) {
+    if (this.tokenStorage.getUser() && this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
       this.roles = this.tokenStorage.getUser().userId;
     }
@@ -41,7 +41,14 @@ export class LoginComponent implements OnInit {
             this.isLoginFailed = false;
             this.isLoggedIn = true;
             this.roles = this.tokenStorage.getUser().userId;
+            alert("logged in succesfully!")
             this.router.navigate(['../tweets']);
+          },
+          err=>{
+            console.log(this.isLoggedIn)
+            this.isLoginFailed=true;
+            this.isLoggedIn=false;
+            this.authService.handleServerError(err)
           }
         );
       }

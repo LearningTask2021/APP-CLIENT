@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-error',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ErrorComponent implements OnInit {
 
-  constructor() { }
+  errorMessage:String="Internal Server error"
+  errorContent;String="Try again"
+
+  constructor(private route:ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(
+      params=>{
+        this.errorMessage=params.message
+        this.errorContent=params.content
+      }
+    )
   }
 
 }

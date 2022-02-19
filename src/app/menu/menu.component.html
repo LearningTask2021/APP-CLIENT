@@ -9,6 +9,9 @@
         </div>
         <ul class="navbar-nav navbar-collapse justify-content-end">
             <li>
+                <a href="" [hidden]="!isLoggedIn" class="nav-link" routerLink="/profile">Profile</a>
+            </li>
+            <li>
                 <a href="" [hidden]="!isLoggedIn" class="nav-link"  (click)="logout()">Logout</a>
             </li>    
         </ul>
