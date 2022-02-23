@@ -32,7 +32,13 @@
               <div class="card-body">
               <p class="card-text" [innerHTML]=t.tweetText></p>
               <a class="card-link" (click)="replies(t)">show replies</a>
-              <a class="card-link" (click)="reply(t)">add reply</a>
+              <a class="card-link" (click)=addReply(t)>add reply</a>
+              <div *ngIf="t.addReply">
+                <input [(ngModel)]="replyText" type="text" value="Reply Tweet.." class="postATweet"
+      style="color: rgb(136, 153, 166);margin-left: 10px;" />
+    &nbsp; <button style=" border: 2px solid rgb(136, 153, 166);font-size: 12px;" (click)="reply(t)" class="btn" id="replyTweet">Add Reply
+    </button>
+              </div>
             </div>
               <span>{{t.likes}}<i class="bi bi-heart-fill" (click)="like(u,t)"></i></span>
             </article>

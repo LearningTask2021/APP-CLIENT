@@ -3,9 +3,8 @@
         <div class="navbar-nav">
             <a class="navbar-brand" routerLink="/home">MeetUP</a>
             <a  [hidden]="isLoggedIn" class="nav-link" routerLink="/login">Login</a>
-            <a [hidden]="isLoggedIn" class="nav-link">Register</a>
+            <a [hidden]="isLoggedIn" class="nav-link" routerLink="/register">Register</a>
             <a [hidden]="!isLoggedIn" class="nav-link" routerLink="/tweets">Tweets</a>
-            <a [hidden]="!isLoggedIn" class="nav-link">All Users</a>
         </div>
         <ul class="navbar-nav navbar-collapse justify-content-end">
             <li>

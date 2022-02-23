@@ -13,6 +13,7 @@ export class ProfileComponent implements OnInit {
   shouldChange: boolean = false;
   userName: String;
   showReplies: boolean = false;
+  updatedTweetText:String;
   form: any = {};
   constructor(
     private authService: JwtAuthService,
@@ -70,6 +71,26 @@ delete(t){
       this.ngOnInit();
     }
   )
+}
+
+openUpdate(t){
+  t.updateTweet=!t.updateTweet
+  console.log("Inside updating tweet");
+}
+update(t){
+  this.authService.updateTweet(t.tweetId,this.updatedTweetText).subscribe(
+    data=>{
+      console.log(data)
+      t.updateTweet=!t.updateTweet
+      alert("updated tweet successfully!")
+      this.ngOnInit()
+      this.updatedTweetText=""
+    },
+    err=>{
+      console.log("inside error updating")
+      this.authService.handleServerError(err)
+    }
+      )
 }
 
 }

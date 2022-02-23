@@ -23,6 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
       const newRequest = req.clone({ headers: newHeaders });
       return next.handle(newRequest);
     } 
+    
       const token = this.token.getToken();
       console.log(token+'from setting auth header in intercept method');
     if (token != null) {

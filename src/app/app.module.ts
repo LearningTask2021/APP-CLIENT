@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,11 +14,13 @@ import { TweetsComponent } from './tweets/tweets.component';
 import { MenuComponent } from './menu/menu.component';
 import { ErrorComponent } from './error/error.component';
 import { ProfileComponent } from './profile/profile.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
   {path:'',component:HomeComponent},
   {path:'home',component:HomeComponent},
   { path: 'login', component: LoginComponent },
+  {path:'register',component:RegistrationComponent},
   {path:'tweets',component:TweetsComponent},
   {path:'error/:message/:content',component:ErrorComponent},
   {path:'profile',component:ProfileComponent},
@@ -33,14 +35,16 @@ const routes: Routes = [
     TweetsComponent,
     MenuComponent,
     ErrorComponent,
-    ProfileComponent
+    ProfileComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [RouterModule],
   providers: [authInterceptorProviders],

@@ -64,6 +64,13 @@
               &nbsp;
             <a class="card-link" (click)="replies(t)">show replies</a>
             <a class="card-link" (click)="delete(t)">delete tweet</a>
+            <a class="card-link" (click)="openUpdate(t)">update tweet</a>
+            <div *ngIf="t.updateTweet">
+              <input [(ngModel)]="updatedTweetText" type="text" value="update Tweet.." class="postATweet"
+    style="color: rgb(136, 153, 166);margin-left: 10px;" />
+  &nbsp; <button style=" border: 2px solid rgb(136, 153, 166);font-size: 12px;" (click)="update(t)" class="btn" id="replyTweet">update Tweet
+  </button>
+            </div>
           </div>
            
           </article>

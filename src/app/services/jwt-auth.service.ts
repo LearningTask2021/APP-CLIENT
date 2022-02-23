@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaderResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
@@ -56,7 +56,15 @@ export class JwtAuthService {
     )
   }
 
-  
+  registerNewUser(user){
+    let token:string
+    let headers=new HttpHeaders(
+      {
+        'Content-Type':  'application/json'
+      })
+      
+      return this.http.post(AUTH_API+'register',user,{headers,responseType: 'text' as 'json'})
+  }
 
   getAllUsers():Observable<User[]>{
     let headers=new HttpHeaders(
@@ -119,11 +127,23 @@ postATweet(tweetText){
   return this.http.post(AUTH_API+userId+'/add',tweet,{responseType: 'text' as 'json'});
 }
 
+replyTweet(replyText,t){
+  let userId=this.tokenStorageService.getUser().userId;
+  let tweet: Tweets=new Tweets('','',formatDate(new Date(),'dd/MM/yyyy', 'en'),0,'',[])
+  tweet.tweetText=replyText
+  console.log(tweet);
+  return this.http.post(AUTH_API+userId+'/reply/'+t.tweetId,tweet,{responseType: 'text' as 'json'});
+}
+
   handleServerError(err){
     if(err.status==500){
       console.log("Inside 500 http server error");
       console.log(err.error)
       alert("Tweet length must be between 1 and 144")
+    }
+    if(err.status==400){
+      console.log("Inside handling 400 error")
+      alert(err.error)
     }
     if(err.status==0){
       console.log("inside 0 error handler")
@@ -141,6 +161,14 @@ postATweet(tweetText){
 
 deleteTweet(userId,tweetId){
   return this.http.delete(AUTH_API+userId+'/delete/'+tweetId,{responseType: 'text' as 'json'});
+}
+
+updateTweet(tweetId,tweetText){
+let userId=this.tokenStorageService.getUser().userId;
+  let tweet: Tweets=new Tweets('','',formatDate(new Date(),'dd/MM/yyyy', 'en'),0,'',[])
+  tweet.tweetText=tweetText
+  console.log(tweet);
+  return this.http.put(AUTH_API+userId+'/update/'+tweetId,tweet,{responseType: 'text' as 'json'});
 }
 
 }

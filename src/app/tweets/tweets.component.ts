@@ -12,6 +12,7 @@ import { TokenStorageService } from '../services/token-storage.service';
 })
 export class TweetsComponent implements OnInit {
 tweetText:String;
+replyText:String;
   constructor(
     private tokenStorage:TokenStorageService,
     private getInfoService:JwtAuthService,
@@ -24,6 +25,7 @@ tweetText:String;
   text2:String="Welcome to tweetApp!";
   userName:String="User1"
   showReplies:boolean=false;
+
   likes=0;
   isLoggedIn:boolean=false;
 
@@ -52,8 +54,26 @@ tweetText:String;
     //window.location.reload();
     this.ngOnInit()
   }
+  addReply(t){
+    console.log(t.addReply)
+    t.addReply=!t.addReply;
+    console.log(t.addReply)
+    
+  }
  reply(t){
-   console.log("inside posting reply")
+   
+   console.log(this.replyText)
+   this.getInfoService.replyTweet(this.replyText,t).subscribe(
+     data=>{
+     console.log("data")
+     alert("posted reply")
+     t.addReply=!t.addReply
+     this.ngOnInit()
+     },
+     err=>{
+      this.getInfoService.handleServerError(err)
+    }
+   )
  }
   
 
