@@ -14,7 +14,7 @@ import {formatDate} from '@angular/common';
 
 
 
-const AUTH_API="http://localhost:8080/api/v1.0/tweets/";
+const AUTH_API="http://18.191.128.116:8080/api/v1.0/tweets/";
 
 
 
@@ -45,7 +45,7 @@ export class JwtAuthService {
     headers=headers.append("Anonymous","anonymous");
     headers=headers.append("produces","application/json");
     headers=headers.append("consumes","application/json");
-    return this.http.post<String>("http://localhost:8080/authenticate",this.authRequest,{ headers, responseType: 'text' as 'json' })
+    return this.http.post<String>("http://18.191.128.116:8080/authenticate",this.authRequest,{ headers, responseType: 'text' as 'json' })
     .pipe(
       // here we can stop the error being thrown for certain error responses
       catchError(err => {
@@ -71,7 +71,7 @@ export class JwtAuthService {
       {
         'Content-Type':  'application/json'
       })
-      return this.http.get<User[]>("http://localhost:8080/api/v1.0/tweets/users/all",{headers})
+      return this.http.get<User[]>("http://18.191.128.116:8080/api/v1.0/tweets/users/all",{headers})
   }
 
   likeATweet(userId,tweetId){
@@ -79,7 +79,7 @@ export class JwtAuthService {
       {
         'Content-Type':  'application/json'
       })
-      return this.http.put<Tweets[]>("http://localhost:8080/api/v1.0/tweets/"+userId+"/like/"+tweetId,{headers})
+      return this.http.put<Tweets[]>("http://18.191.128.116:8080/api/v1.0/tweets/"+userId+"/like/"+tweetId,{headers})
   }
   
   login(credentials): Observable<any> {
