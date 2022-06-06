@@ -14,9 +14,9 @@ import {formatDate} from '@angular/common';
 
 
 
-const AUTH_API="http://localhost:8090/TWEET-SERVICE/api/v1.0/tweets/";
-const LOGIN_API="http://localhost:8090/LOGIN-SERVICE/api/v1.0/tweets/";
-const JWT_API="http://localhost:8090/TWEET-SERVICE/authenticate";
+const AUTH_API="http://ec2-15-206-194-124.ap-south-1.compute.amazonaws.com:8090/TWEET-SERVICE/api/v1.0/tweets/";
+const LOGIN_API="http://ec2-15-206-194-124.ap-south-1.compute.amazonaws.com:8090/LOGIN-SERVICE/api/v1.0/tweets/";
+const JWT_API="http://ec2-15-206-194-124.ap-south-1.compute.amazonaws.com:8090/TWEET-SERVICE/authenticate";
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +63,7 @@ export class JwtAuthService {
       {
         'Content-Type':  'application/json'
       })
-     
+      headers=headers.append("Anonymous","anonymous");
       return this.http.post(AUTH_API+'register',user,{headers,responseType: 'text' as 'json'})
   }
 
@@ -126,7 +126,7 @@ postATweet(tweetText){
   var myDate = new Date();
   var varID = myDate.getHours() + "" + myDate.getMinutes() + "" + myDate.getSeconds() + "" + myDate.getMilliseconds();
   varID = varID.substring(0, 10);
-  let tweet: Tweets=new Tweets(varID,'',formatDate(new Date(),'dd/MM/yyyy', 'en'),0,'',[])
+  let tweet: Tweets=new Tweets('','',formatDate(new Date(),'dd/MM/yyyy', 'en'),0,'',[])
   tweet.tweetText=tweetText
   console.log(tweet);
   return this.http.post(AUTH_API+userId+'/add',tweet,{responseType: 'text' as 'json'});
